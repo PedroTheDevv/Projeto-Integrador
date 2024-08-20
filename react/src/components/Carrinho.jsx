@@ -26,6 +26,7 @@ const Carrinho = () => {
             <div className="carrinho-item-details">
               <h3>{item.nameProduct}</h3>
               <p>Preço: R${item.priceProduct}</p>
+              <p>Tamanho: {item.size}</p>
               <p>Quantidade: {item.quantity}</p>
               <button onClick={() => handleRemove(item.idProduct)}>Remover</button>
             </div>

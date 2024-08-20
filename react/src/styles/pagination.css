@@ -5,6 +5,7 @@ nav{
 }
 
 .pagination{
+    align-items: center;
     padding: 0;
     display: grid;
     grid-template-columns: 123.6px 38.8px 38.8px 38.8px 123.6px;
@@ -12,7 +13,7 @@ nav{
 }
 
 li{
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .page-link {

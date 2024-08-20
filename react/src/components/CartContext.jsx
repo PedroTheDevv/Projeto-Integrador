@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
         return savedCart ? JSON.parse(savedCart) : [];
     });    
 
-    const addToCart = async (product, quantity = 1) => {
+    const addToCart = async (product, quantity, size) => {
         const token = localStorage.getItem('token');
         if (!token) {
           alert('Você precisa estar logado para adicionar itens ao carrinho.');
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ productId: product.idProduct, quantity }),
+            body: JSON.stringify({ productId: product.idProduct, quantity, size }),
           });
     
           if (response.ok) {
@@ -31,10 +31,10 @@ export const CartProvider = ({ children }) => {
               const updatedCart = existingProduct
                 ? prevCart.map(item =>
                     item.id === product.idProduct
-                      ? { ...item, quantity: item.quantity + quantity }
+                      ? { ...item, quantity: item.quantity + quantity, size }
                       : item
                   )
-                : [...prevCart, { ...product, quantity }];
+                : [...prevCart, { ...product, quantity, size }];
               
               localStorage.setItem('cart', JSON.stringify(updatedCart));
               return updatedCart;
@@ -48,14 +48,6 @@ export const CartProvider = ({ children }) => {
           alert('Erro ao adicionar produto ao carrinho.');
         }
       };
-
-  /*const removeFromCart = (productId) => {
-    setCart(prevCart => {
-        const updatedCart = prevCart.filter(item => item.id !== productId);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-        return updatedCart;
-      });
-  };*/
 
   const removeFromCart = (productId) => {
     setCart(prevCart => {

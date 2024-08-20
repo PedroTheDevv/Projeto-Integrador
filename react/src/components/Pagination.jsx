@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/pagination.css';
+import { Button } from '@chakra-ui/react';
 
 const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) => {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -8,45 +9,56 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
     <nav>
       <ul className="pagination">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            className="page-link"
-            disabled={currentPage === 1}
-          >
+          <Button
+          colorScheme='teal'
+          size='sm'
+          onClick={() => paginate(currentPage - 1)}
+          className="page-link"
+          disabled={currentPage === 1}>
             Página Anterior
-          </button>
+          </Button>
         </li>
+
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            className="page-link"
-            disabled={currentPage === 1}
-          >
+          <Button
+          colorScheme='teal'
+          size='sm'
+          onClick={() => paginate(currentPage - 1)}
+          className="page-link"
+          disabled={currentPage === 1}>
             {currentPage === 1 ? '' : currentPage - 1}
-          </button>
+          </Button>
         </li>
+
         <li className="page-item active">
-          <button className="page-link">
+          <Button
+          colorScheme='teal'
+          size='sm'
+          className="page-link">
             {currentPage}
-          </button>
+          </Button>
         </li>
+
         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            className="page-link"
-            disabled={currentPage === totalPages}
-          >
+          <Button
+          colorScheme='teal'
+          size='sm'
+          onClick={() => paginate(currentPage + 1)}
+          className="page-link"
+          disabled={currentPage === totalPages}>
             {currentPage === totalPages ? '' : currentPage + 1}
-          </button>
+          </Button>
         </li>
+
         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            className="page-link"
-            disabled={currentPage === totalPages}
-          >
+          <Button
+          colorScheme='teal'
+          size='sm'
+          onClick={() => paginate(currentPage + 1)}
+          className="page-link"
+          disabled={currentPage === totalPages}>
             Próxima Página
-          </button>
+          </Button>
         </li>
       </ul>
     </nav>

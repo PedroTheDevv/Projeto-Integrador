@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React from 'react';
 import Header from './Header';
-import Card from './components/Card';
+import CardProduct from './components/Card';
 import CadastroUsuario from './components/CadastroUsuario';
 import Sobre from './components/Sobre';
 import CadastroProduto from './components/CadastroProduto'
@@ -20,7 +20,7 @@ const App = () => {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" element={<Card />} />
+            <Route path="/" element={<CardProduct />} />
             <Route path="/cadastroUser" element={<ProtectedRoute element={<CadastroUsuario />} />} />
             <Route path="/loginUser" element={<ProtectedRoute element={<Login />} />} />
             <Route path="/sobre" element={<Sobre />} />

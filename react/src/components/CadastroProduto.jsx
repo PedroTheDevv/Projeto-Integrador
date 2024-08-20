@@ -4,6 +4,7 @@ function Cadastro() {
     const [nomeProd, setNomeProd] = useState('');
     const [tamanhoProd, setTamanhoProd] = useState('');
     const [precoProd, setPrecoProd] = useState('');
+    const [descriptionProd, setDescriptionProd] = useState('');
     const [imagemProd, setImagemProd] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -14,6 +15,7 @@ function Cadastro() {
         formData.append('tamanhoProd', tamanhoProd);
         formData.append('precoProd', precoProd);
         formData.append('imagemProd', imagemProd);
+        formData.append('descriptionProd', descriptionProd);
 
         const token = localStorage.getItem('token');
         
@@ -32,6 +34,7 @@ function Cadastro() {
                 setTamanhoProd('');
                 setPrecoProd('');
                 setImagemProd(null);
+                setDescriptionProd('');
             } else {
                 alert('Erro ao realizar o cadastro.');
             }
@@ -60,7 +63,7 @@ function Cadastro() {
                     <input
                         type="text"
                         id="size"
-                        value={tamanhoProd}
+                        value={tamanhoProd.toUpperCase()}
                         onChange={(e) => setTamanhoProd(e.target.value)}
                         required
                     />
@@ -72,6 +75,16 @@ function Cadastro() {
                         id="price"
                         value={precoProd}
                         onChange={(e) => setPrecoProd(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="description">Descrição</label>
+                    <input
+                        type="text"
+                        id="description"
+                        value={descriptionProd}
+                        onChange={(e) => setDescriptionProd(e.target.value)}
                         required
                     />
                 </div>

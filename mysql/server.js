@@ -130,11 +130,11 @@ app.post('/api/cadastroUser', (req, res) => {
 });
 
 app.post('/api/cadastroProduto', authenticateToken, upload.single('imagemProd'), (req, res) => {
-  const { nomeProd, tamanhoProd, precoProd } = req.body;
+  const { nomeProd, tamanhoProd, precoProd, descriptionProd } = req.body;
   const filePath = req.file.path;
 
-  const sql = 'INSERT INTO products (nameProduct, sizeProduct, priceProduct, imageProduct) VALUES (?, ?, ?, ?)';
-  const values = [nomeProd, tamanhoProd, precoProd, filePath];
+  const sql = 'INSERT INTO products (nameProduct, sizeProduct, priceProduct, imageProduct, descriptionProduct) VALUES (?, ?, ?, ?, ?)';
+  const values = [nomeProd, tamanhoProd, precoProd, filePath, descriptionProd];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -149,12 +149,12 @@ app.post('/api/cadastroProduto', authenticateToken, upload.single('imagemProd'),
 app.use('/uploads', express.static('uploads'));
 
 app.post('/addCart', authenticateToken, (req, res) => {
-  const { productId, quantity } = req.body;
+  const { productId, quantity, size } = req.body;
   const userId = req.user.id;
 
-  const sql = 'INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)';
+  const sql = 'INSERT INTO cart (user_id, product_id, quantity, size) VALUES (?, ?, ?, ?)';
 
-  db.query(sql, [userId, productId, quantity], (err, result) => {
+  db.query(sql, [userId, productId, quantity, size], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
       res.status(500).send('Erro ao inserir dados');

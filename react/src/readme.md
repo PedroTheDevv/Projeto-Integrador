@@ -31,4 +31,11 @@ return(
 </div>
 
 
-
+<div className="card">
+    <img src={`http://localhost:5000/${item.imageProduct}`} alt="Roupa" />
+    <div className="card-conteudo">
+        <p className="nome">{item.nameProduct}</p>
+        <p className="preco">R${item.priceProduct}</p>
+        <p className="tamanho">Tamanho disponível: {item.sizeProduct}</p>
+    </div>
+</div>
