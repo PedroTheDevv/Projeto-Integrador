@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../styles/card.css';
 import Pagination from './Pagination';
-import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react'
+import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react';
 
 const CardProduct = () => {
   const [data, setData] = useState([]);
