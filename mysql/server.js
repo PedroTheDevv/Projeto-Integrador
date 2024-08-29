@@ -148,18 +148,60 @@ app.post('/api/cadastroProduto', authenticateToken, upload.single('imagemProd'),
 
 app.use('/uploads', express.static('uploads'));
 
+app.get('/cart', authenticateToken, (req, res) => {
+  const userId = req.user.id;
+  const sql = 'SELECT cart.idCart, cart.user_id, cart.product_id, cart.size, products.nameProduct, products.priceProduct, products.descriptionProduct, products.imageProduct, products.sizeProduct FROM cart JOIN products ON cart.product_id = products.idProduct WHERE cart.user_id = ?';
+  
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar itens do carrinho:', err);
+      res.status(500).send('Erro ao buscar itens do carrinho');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.post('/addCart', authenticateToken, (req, res) => {
-  const { productId, quantity, size } = req.body;
+  const { productId, size } = req.body;
   const userId = req.user.id;
 
-  const sql = 'INSERT INTO cart (user_id, product_id, quantity, size) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT INTO cart (user_id, product_id, size) VALUES (?, ?, ?)';
 
-  db.query(sql, [userId, productId, quantity, size], (err, result) => {
+  db.query(sql, [userId, productId, size], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
       res.status(500).send('Erro ao inserir dados');
     } else {
       res.status(200).send('Produto adicionado ao carrinho com sucesso');
+    }
+  });
+});
+
+app.delete('/removeCart/:idCart', authenticateToken, (req, res) => {
+  const { idCart } = req.params;
+  const sql = 'DELETE FROM cart WHERE idCart = ?';
+  
+  db.query(sql, [idCart], (err, result) => {
+    if (err) {
+      console.error('Erro ao remover produto do carrinho:', err);
+      res.status(500).send('Erro ao remover produto do carrinho');
+    } else {
+      res.status(200).send('Produto removido do carrinho com sucesso');
+    }
+  });
+});
+
+app.delete('/clearCart', authenticateToken, (req, res) => {
+  const userId = req.user.id;
+  const sql = 'DELETE * FROM cart WHERE user_id = ?';
+  
+  db.query(sql, [userId], (err, result) => {
+    if (err) {
+      console.error('Erro ao limpar o carrinho:', err);
+      res.status(500).send('Erro ao limpar o carrinho');
+    } else {
+      res.status(200).send('Carrinho limpo com sucesso');
     }
   });
 });

@@ -1,5 +1,6 @@
 .container{
     margin-top: 20px;
+    gap: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,8 +24,77 @@
     align-items: center;
 }
 
-@media screen and (max-width: 1000px) {
-    .container{
-        display: block;
-    }
+.product-card {
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 250px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.product-image {
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    width: 250px;
+    height: 330px;
+    display: block;
+}
+
+.favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff4c4c;
+}
+
+.product-info {
+    padding: 10px;
+    text-align: left;
+}
+
+.product-name {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.product-price {
+    font-size: 14px;
+    color: #333;
+}
+
+.current-price {
+    font-weight: bold;
+    display: block;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #777;
+    margin-right: 10px;
+}
+
+.installment {
+    color: #888;
+    font-size: 12px;
+}
+
+.discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff4c4c;
+    color: #fff;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 3px;
 }

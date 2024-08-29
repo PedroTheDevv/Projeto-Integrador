@@ -10,7 +10,6 @@ const ProdutoDetalhe = ({ product }) => {
   const [produto, setProduto] = useState(null);
   const [value, setValue] = React.useState('1');
   const [tamanhos, setTamanhos] = useState([]);
-  const [quantidade, setQuantidade] = useState('');
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const ProdutoDetalhe = ({ product }) => {
   }, [id]);
 
   const handleAddToCart = () => {
-    addToCart(produto, quantidade, value);
+    addToCart(produto, value);
   };
 
   if (!produto) return <p>Carregando...</p>;
@@ -60,15 +59,6 @@ const ProdutoDetalhe = ({ product }) => {
           </RadioGroup>
         </CardBody>
         <CardFooter display='flex' flexDirection='column'>
-        <div>
-          <NumberInput onChange={setQuantidade} size='md' maxW={24} defaultValue={1} min={1}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </div>
           <ButtonGroup spacing='2'>
             <Button variant='solid' colorScheme='blue'>
               Buy now

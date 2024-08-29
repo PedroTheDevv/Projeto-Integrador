@@ -33,9 +33,25 @@ const CardProduct = () => {
         <div className="rowcards">
           {currentProducts.map(item => (
             <Link key={item.id} to={`/produto/${item.idProduct}`} className="card-link">
+              <div className="product-card">
+                <div className="product-image">
+                  <img src={`http://localhost:5000/${item.imageProduct}`} alt={item.nameProduct} />
+                  <button className="favorite-button">❤</button>
+                </div>
+                <div className="product-info">
+                  <h3 className="product-name">{item.nameProduct}</h3>
+                  <div className="product-price">
+                    <span className="current-price">R$ {item.priceProduct}</span>
+                    <span className="installment">{item.descriptionProduct}</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            /*<Link key={item.id} to={`/produto/${item.idProduct}`} className="card-link">
               <Card
               max-width="250px"
-              width="100%">
+              width="100%"
+              height="536px">
                 <CardBody>
                   <Image
                     src={`http://localhost:5000/${item.imageProduct}`}
@@ -46,7 +62,7 @@ const CardProduct = () => {
                     display="block"
                     object-fit="cover"
                   />
-                  <Stack mt='6' spacing='3'>
+                  <Stack mt='6' height='138px' spacing='3' display='flex' justifyContent='space-between'>
                     <Heading size='md' mb='0'>{item.nameProduct}</Heading>
                     <Text>
                       {item.descriptionProduct}
@@ -57,7 +73,7 @@ const CardProduct = () => {
                   </Stack>
                 </CardBody>
               </Card>
-            </Link>
+            </Link>*/
           ))}
         </div>
         <Pagination

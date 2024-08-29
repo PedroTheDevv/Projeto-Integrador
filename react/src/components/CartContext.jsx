@@ -1,14 +1,14 @@
 import React, { createContext, useState } from 'react';
-
+import axios from 'axios';
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState(() => {
-        const savedCart = localStorage.getItem('cart');
-        return savedCart ? JSON.parse(savedCart) : [];
-    });    
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });    
 
-    const addToCart = async (product, quantity, size) => {
+    const addToCart = async (product, size) => {
         const token = localStorage.getItem('token');
         if (!token) {
           alert('Você precisa estar logado para adicionar itens ao carrinho.');
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ productId: product.idProduct, quantity, size }),
+            body: JSON.stringify({ productId: product.idProduct, size }),
           });
     
           if (response.ok) {
@@ -31,10 +31,10 @@ export const CartProvider = ({ children }) => {
               const updatedCart = existingProduct
                 ? prevCart.map(item =>
                     item.id === product.idProduct
-                      ? { ...item, quantity: item.quantity + quantity, size }
+                      ? { ...item, size }
                       : item
                   )
-                : [...prevCart, { ...product, quantity, size }];
+                : [...prevCart, { ...product, size }];
               
               localStorage.setItem('cart', JSON.stringify(updatedCart));
               return updatedCart;
@@ -49,17 +49,35 @@ export const CartProvider = ({ children }) => {
         }
       };
 
-  const removeFromCart = (productId) => {
-    setCart(prevCart => {
-      const updatedCart = prevCart.filter(item => item.idProduct !== productId);
-      localStorage.setItem('cart', JSON.stringify(updatedCart));
-      return updatedCart;
-    });
+  const removeFromCart = async(idCart) => {
+    try{
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:5000/removeCart/${idCart}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setCart(prevCart => prevCart.filter(item => item.idCart !== idCart));
+      alert('Item removido do carrinho com sucesso!');
+    } catch(error){
+      console.error('Erro ao remover produto do carrinho:', error);
+    }
   };
 
-  const clearCart = () => {
-    setCart([]);
-    localStorage.removeItem('cart');
+  const clearCart = async() => {
+    try{
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:5000/clearCart`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      alert('Carrinho limpo com sucesso!')
+      setCart([]);
+      localStorage.removeItem('cart');
+    } catch(error){
+      console.error('Erro ao remover produto do carrinho:', error);
+    }
   };
 
   return (
