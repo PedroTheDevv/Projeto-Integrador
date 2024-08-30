@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../styles/card.css';
 import Pagination from './Pagination';
-import { Card, CardBody, Image, Stack, Heading, Text } from '@chakra-ui/react';
 
 const CardProduct = () => {
   const [data, setData] = useState([]);
@@ -32,11 +31,10 @@ const CardProduct = () => {
         </div>
         <div className="rowcards">
           {currentProducts.map(item => (
-            <Link key={item.id} to={`/produto/${item.idProduct}`} className="card-link">
+            <Link key={item.idProduct} to={`/produto/${item.idProduct}`} className="card-link">
               <div className="product-card">
                 <div className="product-image">
                   <img src={`http://localhost:5000/${item.imageProduct}`} alt={item.nameProduct} />
-                  <button className="favorite-button">❤</button>
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{item.nameProduct}</h3>
@@ -47,33 +45,6 @@ const CardProduct = () => {
                 </div>
               </div>
             </Link>
-            /*<Link key={item.id} to={`/produto/${item.idProduct}`} className="card-link">
-              <Card
-              max-width="250px"
-              width="100%"
-              height="536px">
-                <CardBody>
-                  <Image
-                    src={`http://localhost:5000/${item.imageProduct}`}
-                    alt={item.nameProduct}
-                    borderRadius='lg'
-                    width="250px"
-                    height="340px"
-                    display="block"
-                    object-fit="cover"
-                  />
-                  <Stack mt='6' height='138px' spacing='3' display='flex' justifyContent='space-between'>
-                    <Heading size='md' mb='0'>{item.nameProduct}</Heading>
-                    <Text>
-                      {item.descriptionProduct}
-                    </Text>
-                    <Text color='blue.600' fontSize='2xl'>
-                      R${item.priceProduct}
-                    </Text>
-                  </Stack>
-                </CardBody>
-              </Card>
-            </Link>*/
           ))}
         </div>
         <Pagination

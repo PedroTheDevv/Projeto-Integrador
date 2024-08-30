@@ -12,7 +12,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
           <Button
           colorScheme='teal'
           size='sm'
-          onClick={() => paginate(currentPage - 1)}
+          onClick={() => currentPage > 1 && paginate(currentPage - 1)}
           className="page-link"
           disabled={currentPage === 1}>
             Página Anterior
@@ -23,7 +23,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
           <Button
           colorScheme='teal'
           size='sm'
-          onClick={() => paginate(currentPage - 1)}
+          onClick={() => currentPage > 1 && paginate(currentPage - 1)}
           className="page-link"
           disabled={currentPage === 1}>
             {currentPage === 1 ? '' : currentPage - 1}
@@ -43,7 +43,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
           <Button
           colorScheme='teal'
           size='sm'
-          onClick={() => paginate(currentPage + 1)}
+          onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
           className="page-link"
           disabled={currentPage === totalPages}>
             {currentPage === totalPages ? '' : currentPage + 1}
@@ -54,7 +54,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
           <Button
           colorScheme='teal'
           size='sm'
-          onClick={() => paginate(currentPage + 1)}
+          onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
           className="page-link"
           disabled={currentPage === totalPages}>
             Próxima Página

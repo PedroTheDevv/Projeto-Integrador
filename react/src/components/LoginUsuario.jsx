@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import '../styles/loginUsuario.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordShown(!passwordShown);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,29 +42,29 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form className="form" onSubmit={handleSubmit}>
+        <p className="form-title">Entre com a sua conta</p>
+        <div className="input-container">
+          <input placeholder="Digite seu email" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="input-container">
+          <input placeholder="Digite sua senha" type={passwordShown ? "text" : "password"} id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <span>
+            <input type="checkbox" id="input-checkbox"/>
+            <svg stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={togglePasswordVisibility}>
+              <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"></path>
+              <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"></path>
+            </svg>
+          </span>
         </div>
-        <button type="submit" className="submit-button">Entrar</button>
+        <button className="submit" type="submit">
+          Entrar
+        </button>
+
+        <p className="signup-link">
+          Novo por aqui?&nbsp;&nbsp;
+          <Link to={'/cadastroUser'}>Cadastre-se</Link>
+        </p>
       </form>
     </div>
   );

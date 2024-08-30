@@ -45,17 +45,6 @@
     display: block;
 }
 
-.favorite-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #ff4c4c;
-}
-
 .product-info {
     padding: 10px;
     text-align: left;

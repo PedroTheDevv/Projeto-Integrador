@@ -18,7 +18,6 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Middleware para verificar o token
 const authenticateToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
@@ -33,20 +32,20 @@ const authenticateToken = (req, res, next) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Pasta onde os arquivos serão armazenados
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Adiciona um timestamp ao nome do arquivo
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 const upload = multer({ storage: storage });
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'admin',
-  database: 'projetoIntegrador'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect(err => {
@@ -66,7 +65,8 @@ app.get('/produtos', (req, res) => {
 
 app.get('/produto/:id', (req, res) => {
   const { id } = req.params;
-  db.query('SELECT * FROM products WHERE idProduct = ?', [id], (err, results) => {
+  const sql = 'SELECT * FROM products WHERE idProduct = ?';
+  db.query(sql, [id], (err, results) => {
     if (err) {
       console.error('Erro ao buscar detalhes do produto:', err);
       return res.status(500).send('Erro ao buscar detalhes do produto');
@@ -75,6 +75,64 @@ app.get('/produto/:id', (req, res) => {
       return res.status(404).send('Produto não encontrado');
     }
     res.json(results[0]);
+  });
+});
+
+app.put('/editarProduto/:id', (req, res) => {
+  const { id } = req.params;
+  const { nome, size, price, description, category } = req.body;
+  const sql = 'UPDATE products SET nameProduct = ?, sizeProduct = ?, priceProduct = ?, descriptionProduct = ?, categoryProduct = ? WHERE idProduct = ?';
+
+  db.query(sql, [nome, size, price, description, category, id], (err, results) => {
+    if (err) {
+      console.error('Erro ao atualizar produto:', err);
+      return res.status(500).json({ message: 'Erro ao atualizar produto' });
+    }
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Produto não encontrado' });
+    }
+    res.json({ message: 'Produto atualizado com sucesso!' });
+  });
+});
+
+
+app.delete('/deletarProduto/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM products WHERE idProduct = ?";
+  db.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error('Erro ao deletar produto:', err);
+      res.status(500).send('Erro ao deletar produto');
+    } else {
+      res.status(200).send('Produto deletado com sucesso');
+    }
+  });
+});
+
+app.get('/api/produtos', (req, res) => {
+  const category = req.query.category;
+  const query = 'SELECT * FROM products WHERE categoryProduct = ?';
+  db.query(query, [category], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar produtos:', err);
+      return res.status(500).json({ error: 'Erro ao buscar produtos.' });
+    }
+    res.json(results);
+  });
+});
+
+app.get('/api/search', (req, res) => {
+  const searchQuery = req.query.query;
+  if (!searchQuery) {
+    return res.status(400).json({ error: 'Necessita de um nome' });
+  }
+  const sql = 'SELECT * FROM products WHERE nameProduct LIKE ?';
+  const values = [`%${searchQuery}%`];
+  db.query(sql, values, (error, results) => {
+      if (error) {
+          return res.status(500).json({ error: 'Database error' });
+      }
+      res.json(results);
   });
 });
 
@@ -130,11 +188,11 @@ app.post('/api/cadastroUser', (req, res) => {
 });
 
 app.post('/api/cadastroProduto', authenticateToken, upload.single('imagemProd'), (req, res) => {
-  const { nomeProd, tamanhoProd, precoProd, descriptionProd } = req.body;
+  const { nomeProd, tamanhoProd, precoProd, descriptionProd, categoriaProd } = req.body;
   const filePath = req.file.path;
 
-  const sql = 'INSERT INTO products (nameProduct, sizeProduct, priceProduct, imageProduct, descriptionProduct) VALUES (?, ?, ?, ?, ?)';
-  const values = [nomeProd, tamanhoProd, precoProd, filePath, descriptionProd];
+  const sql = 'INSERT INTO products (nameProduct, sizeProduct, priceProduct, imageProduct, descriptionProduct, categoryProduct) VALUES (?, ?, ?, ?, ?, ?)';
+  const values = [nomeProd, tamanhoProd, precoProd, filePath, descriptionProd, categoriaProd];
 
   db.query(sql, values, (err, result) => {
     if (err) {
