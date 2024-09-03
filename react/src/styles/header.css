@@ -130,3 +130,14 @@ body {
 .button-sign:hover .arrow:before {
     right: 0;
 }
+
+.topico p, .titleCart{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.adminsitracao{
+    padding: 5px 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}

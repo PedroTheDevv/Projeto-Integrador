@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [isAdmin, setIsAdmin] = useState(() => {
+    console.log(localStorage.getItem('isAdmin'))
     return localStorage.getItem('isAdmin') || '';
   });
 

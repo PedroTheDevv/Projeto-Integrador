@@ -32,7 +32,7 @@ const Carrinho = () => {
 
   return (
     <Box p={4} maxWidth="800px" mx="auto">
-      <Text fontSize="2xl" mb={4} fontWeight="bold">Carrinho de Compras</Text>
+      <Text fontSize="2xl" mb={4} fontWeight="bold" textAlign="center">Carrinho de Compras</Text>
       
       {data.length === 0 ? (
         <Text fontSize="xl">Seu carrinho está vazio.</Text>
@@ -61,13 +61,13 @@ const Carrinho = () => {
 
       {data.length > 0 && (
         <Box mt={8}>
-          <Flex justifyContent="space-between" alignItems="center">
+          <Flex justifyContent="center" alignItems="center">
             <Button colorScheme="red" onClick={handleClearCart}>
               Limpar Carrinho
             </Button>
-            <Button colorScheme="teal"/* onClick={onCheckout}*/>
+            {/*<Button colorScheme="teal" onClick={onCheckout}>
               Finalizar Compra
-            </Button>
+            </Button>*/}
           </Flex>
         </Box>
       )}

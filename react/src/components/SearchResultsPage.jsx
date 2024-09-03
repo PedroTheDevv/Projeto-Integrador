@@ -27,7 +27,7 @@ const SearchResultsPage = () => {
     return (
         <div className="container">
             <div className="topico">
-                <p>Resultados para "{searchQuery}"</p>
+                <p>Resultados para '{searchQuery}'</p>
             </div>
             <div className="rowcards">
                 {results.length > 0 ? (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import '../styles/modal.css'
 
 Modal.setAppElement('#root');
 
@@ -16,7 +17,7 @@ const EditProductModal = ({ isOpen, onRequestClose, product, onSave }) => {
     };
   
     return (
-      <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+      <Modal className='modal' isOpen={isOpen} onRequestClose={onRequestClose}>
         <h2>Editar Produto</h2>
         <form>
           <div>

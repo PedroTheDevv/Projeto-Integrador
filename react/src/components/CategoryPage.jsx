@@ -32,7 +32,7 @@ const CategoryPage = () => {
     return (
         <div className="container">
         <div className="topico">
-            <h1>{categoryName}</h1>  
+          <p>{categoryName}</p>
         </div>
         <div className="rowcards">
           {currentProducts.map(item => (
@@ -40,7 +40,6 @@ const CategoryPage = () => {
               <div className="product-card">
                 <div className="product-image">
                   <img src={`http://localhost:5000/${item.imageProduct}`} alt={item.nameProduct} />
-                  <button className="favorite-button">❤</button>
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{item.nameProduct}</h3>

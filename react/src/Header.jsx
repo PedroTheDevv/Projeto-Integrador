@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './components/AuthContext';
 
 const Header = () => {
-    const { isAuthenticated, username, logout } = useAuth();
+    const { isAuthenticated, isAdmin, username, logout } = useAuth();
     const [cartItems, setCartItems] = useState([]);
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
@@ -62,8 +62,16 @@ const Header = () => {
                 <div className="icons">
                     {isAuthenticated ? (
                         <>
-                            <p>👤{username}</p>
-                            <Link to="/carrinho">🛒({cartItems.length})</Link>
+                            {isAdmin == 'true' ? (
+                                <>
+                                    <Link to={'/adminProducts'} className='adminsitracao'>ADMINISTRAÇÃO</Link>
+                                </>
+                            ) : (
+                                <>
+                                    <p>👤{username}</p>
+                                    <Link to="/carrinho">🛒({cartItems.length})</Link>
+                                </>
+                            )}
                             <button onClick={logout}>Sair</button>
                         </>
                     ) : (
