@@ -83,7 +83,7 @@ const ProdutoDetalhe = ({ product }) => {
                 variant='solid'
                 colorScheme='blue'
                 onClick={handleAddToCart}>
-                Add to cart
+                Adicionar ao Carrinho
               </Button>
             </ButtonGroup>
           </CardFooter>

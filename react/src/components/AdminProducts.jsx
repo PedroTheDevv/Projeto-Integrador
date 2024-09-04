@@ -63,21 +63,39 @@ const ProductCRUD = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Gerenciamento de Produtos</h2>
-      <Link to={'/cadastroProduto'}>
-        <button 
-          style={{ 
-            padding: '10px 20px', 
-            margin: '20px 0', 
-            fontSize: '16px', 
-            backgroundColor: '#4CAF50', 
-            color: 'white', 
-            border: 'none', 
-            cursor: 'pointer'
-          }}>
-          Criar Novo Produto
-        </button>
-      </Link>
+      <div className="titleAdmin">
+        <p>Gerenciamento de Produtos</p>
+        <div className='buttonsAdmin'>
+          <Link to={'/cadastroProduto'}>
+            <button 
+              style={{ 
+                padding: '10px 20px', 
+                margin: '20px 0', 
+                fontSize: '16px', 
+                backgroundColor: '#4CAF50', 
+                color: 'white', 
+                border: 'none', 
+                cursor: 'pointer'
+              }}>
+              Criar Novo Produto
+            </button>
+          </Link>
+          <Link to={'/adminOrders'}>
+            <button 
+              style={{ 
+                padding: '10px 20px', 
+                margin: '20px 0', 
+                fontSize: '16px', 
+                backgroundColor: '#4CAF50', 
+                color: 'white', 
+                border: 'none', 
+                cursor: 'pointer'
+              }}>
+              Pedidos
+            </button>
+          </Link>
+        </div>
+      </div>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>

@@ -22,7 +22,7 @@ const Header = () => {
             .then(response => setCartItems(response.data))
             .catch(error => console.error('Erro ao buscar dados:', error));
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, isAdmin, cartItems]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') 

@@ -15,6 +15,7 @@ import { AuthProvider } from './components/AuthContext';
 import CategoryPage from './components/CategoryPage';
 import SearchResultsPage from './components/SearchResultsPage';
 import ProductCRUD from './components/AdminProducts';
+import AdminOrders from './components/AdminOrders';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/cadastroProduto" element={<AdminRoute element={<CadastroProduto />}/>}/>
             <Route path="/adminProducts" element={<AdminRoute element={<ProductCRUD />}/>}/>
+            <Route path="/adminOrders" element={<AdminRoute element={<AdminOrders />}/>}/>
             <Route path="/produto/:id" element={<ProdutoDetalhe />} />
             <Route path="/carrinho" element={<Carrinho />} />
           </Routes>

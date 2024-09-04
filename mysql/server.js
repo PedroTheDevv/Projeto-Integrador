@@ -6,6 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Decimal = require('decimal.js');
 require('dotenv').config();
 
 const app = express();
@@ -220,10 +221,127 @@ app.get('/cart', authenticateToken, (req, res) => {
   });
 });
 
+app.get('/admin/orders', authenticateToken, (req, res) => {
+  if (!req.user.isAdmin) {
+    return res.status(403).json({ error: 'Acesso negado.' });
+  }
+  const query = `
+    SELECT 
+      orders.idOrder AS orderId, 
+      orders.date_order AS orderDate, 
+      orders.id_user AS userId,
+      users.nameUser AS userName,
+      products.idProduct AS productId, 
+      products.nameProduct AS productName, 
+      products.sizeProduct AS productSize, 
+      products.priceProduct AS productPrice, 
+      products.imageProduct AS productImage,
+      orderproducts.idOrderProd AS orderProductId,
+      orderproducts.size_id AS orderSize
+    FROM orders
+    LEFT JOIN orderproducts ON orders.idOrder = orderproducts.order_id
+    LEFT JOIN products ON orderproducts.product_id = products.idProduct
+    LEFT JOIN users ON orders.id_user = users.idUser
+    ORDER BY orders.date_order DESC, orders.idOrder, orderproducts.idOrderProd;
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar pedidos:', err);
+      return res.status(500).json({ error: 'Erro ao buscar pedidos.' });
+    }
+
+    const orders = results.reduce((acc, row) => {
+      let order = acc.find(o => o.id === row.orderId);
+      if (!order) {
+        order = {
+          id: row.orderId,
+          orderDate: row.orderDate,
+          userId: row.userId,
+          userName: row.userName,
+          items: [],
+          total: new Decimal(0)
+        };
+        acc.push(order);
+      }
+      order.items.push({
+        idOrderProduct: row.orderProductId,
+        productId: row.productId,
+        name: row.productName,
+        size: row.productSize,
+        sizeOrder: row.orderSize,
+        price: new Decimal(row.productPrice),
+        image: row.productImage
+      });
+      order.total = order.total.plus(new Decimal(row.productPrice));
+      return acc;
+    }, []);
+    res.json(orders);
+  });
+});
+
+app.get('/user/orders', authenticateToken, (req, res) => {
+  const userId = req.user.id; // Supondo que o ID do usuário está disponível em req.user
+
+  const query = `
+    SELECT 
+      orders.idOrder AS orderId, 
+      orders.date_order AS orderDate, 
+      orders.id_user AS userId,
+      users.nameUser AS userName,
+      products.idProduct AS productId, 
+      products.nameProduct AS productName, 
+      products.sizeProduct AS productSize, 
+      products.priceProduct AS productPrice, 
+      products.imageProduct AS productImage,
+      orderproducts.idOrderProd AS orderProductId,
+      orderproducts.size_id AS orderSize
+    FROM orders
+    LEFT JOIN orderproducts ON orders.idOrder = orderproducts.order_id
+    LEFT JOIN products ON orderproducts.product_id = products.idProduct
+    LEFT JOIN users ON orders.id_user = users.idUser
+    WHERE orders.id_user = ?
+    ORDER BY orders.date_order DESC, orders.idOrder, orderproducts.idOrderProd;
+  `;
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar pedidos do usuário:', err);
+      return res.status(500).json({ error: 'Erro ao buscar pedidos do usuário.' });
+    }
+
+    const orders = results.reduce((acc, row) => {
+      let order = acc.find(o => o.id === row.orderId);
+      if (!order) {
+        order = {
+          id: row.orderId,
+          orderDate: row.orderDate,
+          userId: row.userId,
+          userName: row.userName,
+          items: [],
+          total: new Decimal(0)
+        };
+        acc.push(order);
+      }
+      order.items.push({
+        idOrderProduct: row.orderProductId,
+        productId: row.productId,
+        name: row.productName,
+        size: row.productSize,
+        sizeOrder: row.orderSize,
+        price: new Decimal(row.productPrice),
+        image: row.productImage
+      });
+      order.total = order.total.plus(new Decimal(row.productPrice));
+      return acc;
+    }, []);
+    res.json(orders);
+  });
+});
+
 app.post('/addCart', authenticateToken, (req, res) => {
   const { productId, size } = req.body;
   const userId = req.user.id;
-
   const sql = 'INSERT INTO cart (user_id, product_id, size) VALUES (?, ?, ?)';
 
   db.query(sql, [userId, productId, size], (err, result) => {
@@ -235,6 +353,36 @@ app.post('/addCart', authenticateToken, (req, res) => {
     }
   });
 });
+
+app.post('/orders', authenticateToken, (req, res) => {
+  const userId = req.user.id;
+  const items = req.body.items;
+  if (!items || items.length === 0) 
+    return res.status(400).json({ error: 'O carrinho está vazio.' });
+  const orderQuery = 'INSERT INTO orders (id_user, date_order) VALUES (?, NOW())';
+  db.query(orderQuery, [userId], (err, result) => {
+    if (err) {
+      console.error('Erro ao criar pedido:', err);
+      return res.status(500).json({ error: 'Erro ao criar pedido.' });
+    }
+
+    const orderId = result.insertId;
+    const orderItemsQuery = `INSERT INTO orderproducts (order_id, product_id, size_id) VALUES ?`;
+    const orderItems = items.map(item => [
+      orderId,
+      item.product_id,
+      item.size
+    ]);
+    db.query(orderItemsQuery, [orderItems], (err, result) => {
+      if (err) {
+        console.error('Erro ao inserir itens do pedido:', err);
+        return res.status(500).json({ error: 'Erro ao inserir itens do pedido.' });
+      }
+      res.status(201).json({ message: 'Pedido criado com sucesso!', orderId });
+    });
+  });
+});
+
 
 app.delete('/removeCart/:idCart', authenticateToken, (req, res) => {
   const { idCart } = req.params;
@@ -252,7 +400,7 @@ app.delete('/removeCart/:idCart', authenticateToken, (req, res) => {
 
 app.delete('/clearCart', authenticateToken, (req, res) => {
   const userId = req.user.id;
-  const sql = 'DELETE * FROM cart WHERE user_id = ?';
+  const sql = 'DELETE FROM cart WHERE user_id = ?';
   
   db.query(sql, [userId], (err, result) => {
     if (err) {

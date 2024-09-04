@@ -72,7 +72,7 @@ export const CartProvider = ({ children }) => {
           'Authorization': `Bearer ${token}`
         }
       });
-      alert('Carrinho limpo com sucesso!')
+      console.log('Carrinho limpo com sucesso!')
       setCart([]);
       localStorage.removeItem('cart');
     } catch(error){

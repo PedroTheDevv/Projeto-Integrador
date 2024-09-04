@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
   });
 
   const [isAdmin, setIsAdmin] = useState(() => {
-    console.log(localStorage.getItem('isAdmin'))
     return localStorage.getItem('isAdmin') || '';
   });
 
@@ -44,14 +43,17 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       localStorage.removeItem('expirationTime');
-      return false; // Token expirado
+      return false;
     }
-    return true; // Token válido
+    return true;
   };
 
   useEffect(() => {
     const isTokenValid = checkTokenExpiration();
     if (!isTokenValid) {
+      setIsAuthenticated(false);
+      setUsername('');
+      setIsAdmin(false);
       console.log('Sessão expirada. Faça login novamente.');
     }
   }, []);
