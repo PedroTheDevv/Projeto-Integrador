@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Decimal = require('decimal.js');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -47,7 +48,10 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
+  ssl: {
+    ca: fs.readFileSync('/path/to/ca.pem')
+  }
 });
 
 
