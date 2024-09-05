@@ -50,7 +50,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
   ssl: {
-    ca: fs.readFileSync('./ca.pem')
+    rejectUnauthorized: true
   }
 });
 
