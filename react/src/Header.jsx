@@ -14,7 +14,7 @@ const Header = () => {
         setQuery('');
         const token = localStorage.getItem('token');
         if (isAuthenticated) {
-            axios.get('http://localhost:5000/cart', {
+            axios.get('https://projeto-integrador-rrwb.onrender.com/cart', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

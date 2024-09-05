@@ -23,7 +23,7 @@ function Cadastro() {
         const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch('http://localhost:5000/api/cadastroProduto', {
+            const response = await fetch('https://projeto-integrador-rrwb.onrender.com/api/cadastroProduto', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -15,7 +15,7 @@ function CadastroUsuario() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/cadastroUser', {
+      const response = await fetch('https://projeto-integrador-rrwb.onrender.com/api/cadastroUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

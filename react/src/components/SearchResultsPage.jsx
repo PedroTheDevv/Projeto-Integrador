@@ -12,7 +12,7 @@ const SearchResultsPage = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/search?query=${encodeURIComponent(searchQuery)}`);
+                const response = await axios.get(`https://projeto-integrador-rrwb.onrender.com/api/search?query=${encodeURIComponent(searchQuery)}`);
                 setResults(response.data);
             } catch (error) {
                 console.error('Erro ao buscar resultados:', error);
@@ -35,7 +35,7 @@ const SearchResultsPage = () => {
                         <Link key={item.idProduct} to={`/produto/${item.idProduct}`} className="card-link">
                             <div className="product-card">
                                 <div className="product-image">
-                                    <img src={`http://localhost:5000/${item.imageProduct}`} alt={item.nameProduct} />
+                                    <img src={`https://projeto-integrador-rrwb.onrender.com/${item.imageProduct}`} alt={item.nameProduct} />
                                 </div>
                                 <div className="product-info">
                                     <h3 className="product-name">{item.nameProduct}</h3>

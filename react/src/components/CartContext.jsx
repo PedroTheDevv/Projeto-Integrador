@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
         }
     
         try {
-          const response = await fetch('http://localhost:5000/addCart', {
+          const response = await fetch('https://projeto-integrador-rrwb.onrender.com/addCart', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async(idCart) => {
     try{
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/removeCart/${idCart}`, {
+      await axios.delete(`https://projeto-integrador-rrwb.onrender.com/removeCart/${idCart}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = async() => {
     try{
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/clearCart`, {
+      await axios.delete(`https://projeto-integrador-rrwb.onrender.com/clearCart`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

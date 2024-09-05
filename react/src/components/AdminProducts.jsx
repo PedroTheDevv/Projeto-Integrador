@@ -14,7 +14,7 @@ const ProductCRUD = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/produtos');
+      const response = await axios.get('https://projeto-integrador-rrwb.onrender.com/produtos');
       setProducts(response.data);
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
@@ -28,7 +28,7 @@ const ProductCRUD = () => {
 
   const handleSave = async (updatedProduct) => {
     try {
-      const response = await fetch(`http://localhost:5000/editarProduto/${updatedProduct.idProduct}`, {
+      const response = await fetch(`https://projeto-integrador-rrwb.onrender.com/editarProduto/${updatedProduct.idProduct}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -57,7 +57,7 @@ const ProductCRUD = () => {
   };  
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/deletarProduto/${id}`)
+    axios.delete(`https://projeto-integrador-rrwb.onrender.com/deletarProduto/${id}`)
     setProducts(products.filter((product) => product.idProduct !== id));
   };
 

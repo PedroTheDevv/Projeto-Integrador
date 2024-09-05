@@ -15,7 +15,7 @@ const ProdutoDetalhe = ({ product }) => {
   const { isAuthenticated, isAdmin } = useAuth();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/produto/${id}`)
+    axios.get(`https://projeto-integrador-rrwb.onrender.com/produto/${id}`)
       .then(response => {
         setProduto(response.data)
         const tamanhosArray = response.data.sizeProduct.split(' ');
@@ -42,7 +42,7 @@ const ProdutoDetalhe = ({ product }) => {
         <Image
           objectFit='cover'
           maxW={{ base: '100%', sm: '200px' }}
-          src={`http://localhost:5000/${produto.imageProduct}`}
+          src={`https://projeto-integrador-rrwb.onrender.com/${produto.imageProduct}`}
           alt={produto.nameProduct}
         />
         <Stack

@@ -18,7 +18,7 @@ const CategoryPage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/produtos?category=${categoryName}`);
+                const response = await fetch(`https://projeto-integrador-rrwb.onrender.com/api/produtos?category=${categoryName}`);
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -39,7 +39,7 @@ const CategoryPage = () => {
             <Link key={item.idProduct} to={`/produto/${item.idProduct}`} className="card-link">
               <div className="product-card">
                 <div className="product-image">
-                  <img src={`http://localhost:5000/${item.imageProduct}`} alt={item.nameProduct} />
+                  <img src={`https://projeto-integrador-rrwb.onrender.com/${item.imageProduct}`} alt={item.nameProduct} />
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{item.nameProduct}</h3>

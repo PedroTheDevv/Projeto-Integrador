@@ -14,7 +14,7 @@ const Carrinho = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/cart', {
+    axios.get('https://projeto-integrador-rrwb.onrender.com/cart', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -24,7 +24,7 @@ const Carrinho = () => {
 
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/user/orders', {
+        const response = await axios.get('https://projeto-integrador-rrwb.onrender.com/user/orders', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -51,7 +51,7 @@ const Carrinho = () => {
   };
 
   const handleCheckout = () => {
-    axios.post('http://localhost:5000/orders', {
+    axios.post('https://projeto-integrador-rrwb.onrender.com/orders', {
       items: data,
     }, {
       headers: {
@@ -82,7 +82,7 @@ const Carrinho = () => {
           <Stack spacing={4}>
             {data.map((item) => (
               <Flex key={item.idCart} alignItems="center" justifyContent="space-between" p={4} borderWidth="1px" borderRadius="md">
-                <Image src={`http://localhost:5000/${item.imageProduct}`} boxSize="100px" objectFit="cover" alt={item.nameProduct} />
+                <Image src={`https://projeto-integrador-rrwb.onrender.com/${item.imageProduct}`} boxSize="100px" objectFit="cover" alt={item.nameProduct} />
                 <Box ml={4} flex="1">
                   <Text fontSize="lg" fontWeight="semibold">{item.nameProduct}</Text>
                   <Text color="gray.500">{item.quantity}R${item.priceProduct}</Text>
@@ -124,7 +124,7 @@ const Carrinho = () => {
               <Stack spacing={4} mt={4}>
                 {order.items.map((item) => (
                   <Flex key={item.idOrderProduct} alignItems="center" justifyContent="space-between" p={4} borderWidth="1px" borderRadius="md" width={400}>
-                    <Image src={`http://localhost:5000/${item.image}`} boxSize="100px" objectFit="cover" alt={item.name} />
+                    <Image src={`https://projeto-integrador-rrwb.onrender.com/${item.image}`} boxSize="100px" objectFit="cover" alt={item.name} />
                     <Box ml={4} flex="1">
                       <Text fontSize="lg" fontWeight="semibold">{item.name}</Text>
                       <Text color="gray.500">R${item.price}</Text>

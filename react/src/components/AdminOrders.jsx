@@ -11,7 +11,7 @@ const AdminOrders = () => {
     const token = localStorage.getItem('token');
     const fetchOrders = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/admin/orders', {
+        const response = await axios.get('https://projeto-integrador-rrwb.onrender.com/admin/orders', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -48,7 +48,7 @@ const AdminOrders = () => {
               {order.items && order.items.length > 0 ? (
                 order.items.map((item) => (
                   <Flex key={item.idOrderProduct} alignItems="center" borderWidth="1px" borderRadius="md" p={4}>
-                    <Image src={`http://localhost:5000/${item.image}`} boxSize="100px" objectFit="cover" alt={item.nameProduct} />
+                    <Image src={`https://projeto-integrador-rrwb.onrender.com/${item.image}`} boxSize="100px" objectFit="cover" alt={item.nameProduct} />
                     <Box ml={4} flex="1">
                       <Text fontSize="lg" fontWeight="semibold">{item.name}</Text>
                       <Text color="gray.500">Valor: R${item.price}</Text>
